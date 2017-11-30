@@ -9,7 +9,7 @@
 #ifndef Header_h
 #define Header_h
 
-//导入MD5处理类
+//导入MD5处理类: 生成图片缓存名称是用到
 #import <CommonCrypto/CommonDigest.h>
 
 #endif /* Header_h */

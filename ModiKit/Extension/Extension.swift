@@ -138,46 +138,77 @@ extension UIButton {
         }
     }
     
-    @objc private func replaceAction(_ action: Selector, to target: Any?, for event: UIEvent?) {
-        debugPrint("replaceAction")
+    @objc private func replaceAction(_ action: Selector, to target: UIButton?, for event: UIEvent?) {
+//        debugPrint("replaceAction")
+        
+        struct once {
+            static var loopSwitch = true
+            static var loopSwitchArr: Dictionary<String,String> = [:]
+        }
+//        if once.loopSwitch {
+//            target?.perform(action, with: self)
+//            once.loopSwitch = false
+//            //延时操作
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2, execute: {
+//                once.loopSwitch = true
+//                debugPrint("延时2秒")
+//            })
+//        }else {
+//            debugPrint("禁止点击")
+//        }
+        
+        //以上方式点击事件适用但当按钮同时添加多个事件如：touchDown事件时也会调用UIButton的SendAction方法：处理
+        //action.desctiption : 返回该事件方法名
+        if tag == 1000 {    //方便控制开关：有得按钮不需要此操作
+            if once.loopSwitchArr[action.description] != "false" {
+                target?.perform(action, with: self)
+                once.loopSwitchArr[action.description] = "false"
+                //延时操作
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2, execute: {
+                    once.loopSwitchArr[action.description] = "true"
+                    debugPrint("延时2秒")
+                })
+            }else {
+                debugPrint(action.description + "禁止点击")
+            }
+        }else {
+            target?.perform(action, with: self)
+        }
     }
 }
 
-//extension UIViewController {
-//    open override static func initialize() {
-//        struct Static {
-//            static var token = NSUUID().uuidString
-//        }
-//
-//        if self != UIViewController.self {
-//            return
-//        }
-//
-//        DispatchQueue.once(token: Static.token) {
-//            let originalSelector = #selector(UIViewController.viewWillAppear(_:))
-//            let swizzledSelector = #selector(UIViewController.xl_viewWillAppear(animated:))
-//
-//            let originalMethod = class_getInstanceMethod(self, originalSelector)
-//            let swizzledMethod = class_getInstanceMethod(self, swizzledSelector)
-//
-//
-//            //在进行 Swizzling 的时候,需要用 class_addMethod 先进行判断一下原有类中是否有要替换方法的实现
-//            let didAddMethod: Bool = class_addMethod(self, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
-//            //如果 class_addMethod 返回 yes,说明当前类中没有要替换方法的实现,所以需要在父类中查找,这时候就用到 method_getImplemetation 去获取 class_getInstanceMethod 里面的方法实现,然后再进行 class_replaceMethod 来实现 Swizzing
-//
-//            if didAddMethod {
-//                class_replaceMethod(self, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod))
-//            } else {
-//                method_exchangeImplementations(originalMethod, swizzledMethod)
-//            }
-//        }
-//    }
-//
-//    func xl_viewWillAppear(animated: Bool) {
-//        self.xl_viewWillAppear(animated: animated)
-//        print("xl_viewWillAppear in swizzleMethod")
-//    }
-//}
+// MARK: - SwizzledMethod
+/*
+extension UIViewController {
+    open override static func initialize() {
+        struct Static {
+            static var token = NSUUID().uuidString
+        }
+        if self != UIViewController.self {
+            return
+        }
+        DispatchQueue.once(token: Static.token) {
+            let originalSelector = #selector(UIViewController.viewWillAppear(_:))
+            let swizzledSelector = #selector(UIViewController.xl_viewWillAppear(animated:))
+            let originalMethod = class_getInstanceMethod(self, originalSelector)
+            let swizzledMethod = class_getInstanceMethod(self, swizzledSelector)
+            //在进行 Swizzling 的时候,需要用 class_addMethod 先进行判断一下原有类中是否有要替换方法的实现
+            let didAddMethod: Bool = class_addMethod(self, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
+            //如果 class_addMethod 返回 yes,说明当前类中没有要替换方法的实现,所以需要在父类中查找,这时候就用到 method_getImplemetation 去获取 class_getInstanceMethod 里面的方法实现,然后再进行 class_replaceMethod 来实现 Swizzing
+
+            if didAddMethod {
+                class_replaceMethod(self, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod))
+            } else {
+                method_exchangeImplementations(originalMethod, swizzledMethod)
+            }
+        }
+    }
+    func xl_viewWillAppear(animated: Bool) {
+        self.xl_viewWillAppear(animated: animated)
+        print("xl_viewWillAppear in swizzleMethod")
+    }
+}
+ */
 
 extension DispatchQueue {
     private static var onceTracker = [String]()

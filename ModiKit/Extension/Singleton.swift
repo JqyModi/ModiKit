@@ -24,6 +24,18 @@ class Singleton {
             Once.singleton = Singleton()
         }
         return Once.singleton
+    }
+    //通过扩展DispatchQueue.once实现废弃的GCD_once效果
+    func shareDefault() -> Singleton {
+        struct Once {
+            static var onceToken: dispatch_time_t = 0
+            static var singleton: Singleton? = nil
+        }
+        //利用GCD特性创建一次实例
+        DispatchQueue.once(token: String(Once.onceToken)) {
+            Once.singleton = Singleton()
+        }
+        return Once.singleton!
     }*/
     
     /*

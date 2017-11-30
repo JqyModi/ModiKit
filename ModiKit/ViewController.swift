@@ -42,6 +42,7 @@ class ViewController: UIViewController {
         let single1 = Singleton.sharedSingleton
         debugPrint("single1.testValue = \(single1.testValue)")
         
+        
     }
     
     @IBAction func readCache(_ sender: UIButton) {
@@ -55,6 +56,9 @@ class ViewController: UIViewController {
 //            print("清理完成")
 //        }
         debugPrint("exchange")
+    }
+    @IBAction func touchDown(_ sender: UIButton) {
+        debugPrint("touchDown")
     }
 }
 

@@ -10,6 +10,7 @@
 		043CE5B21FCCE67C006D017C /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CE5B11FCCE67C006D017C /* Extension.swift */; };
 		043CE5B41FCD04A3006D017C /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CE5B31FCD04A3006D017C /* Cache.swift */; };
 		043CE5B81FCD407C006D017C /* GIFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CE5B71FCD407C006D017C /* GIFView.swift */; };
+		043D54F21FCFD688003130E1 /* LLDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D54F11FCFD688003130E1 /* LLDB.swift */; };
 		044058BA1FCE38DE0076FFC5 /* gif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 044058B91FCE38DE0076FFC5 /* gif.gif */; };
 		044058BD1FCE41E50076FFC5 /* gif1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 044058BB1FCE41E50076FFC5 /* gif1.gif */; };
 		044058BE1FCE41E50076FFC5 /* gif2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 044058BC1FCE41E50076FFC5 /* gif2.gif */; };
@@ -45,6 +46,7 @@
 		043CE5B11FCCE67C006D017C /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		043CE5B31FCD04A3006D017C /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		043CE5B71FCD407C006D017C /* GIFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFView.swift; sourceTree = "<group>"; };
+		043D54F11FCFD688003130E1 /* LLDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLDB.swift; sourceTree = "<group>"; };
 		044058B91FCE38DE0076FFC5 /* gif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif.gif; sourceTree = "<group>"; };
 		044058BB1FCE41E50076FFC5 /* gif1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif1.gif; sourceTree = "<group>"; };
 		044058BC1FCE41E50076FFC5 /* gif2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif2.gif; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				043CE5B31FCD04A3006D017C /* Cache.swift */,
 				043CE5B71FCD407C006D017C /* GIFView.swift */,
 				044058C21FCE97590076FFC5 /* Singleton.swift */,
+				043D54F11FCFD688003130E1 /* LLDB.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				043CE5B81FCD407C006D017C /* GIFView.swift in Sources */,
 				043CE5B41FCD04A3006D017C /* Cache.swift in Sources */,
 				04DD00FE1FCBE0970077D276 /* AppDelegate.swift in Sources */,
+				043D54F21FCFD688003130E1 /* LLDB.swift in Sources */,
 				043CE5B21FCCE67C006D017C /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
