@@ -8,7 +8,108 @@
 
 import UIKit
 
+//MARK: - UIView
 extension UIView {
+    
+    var left: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.x = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.origin.x
+        }
+    }
+    
+    var right: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.x = newValue - self.width
+            self.frame = frame
+        }
+        get {
+            return self.left + self.width
+        }
+    }
+    
+    var width: CGFloat {
+        set {
+            var frame = self.frame
+            frame.size.width = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.size.width
+        }
+    }
+    
+    var height: CGFloat {
+        set {
+            var frame = self.frame
+            frame.size.height = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.size.height
+        }
+    }
+    
+    var top: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.y = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.origin.y
+        }
+    }
+    
+    var bottom: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.y = newValue - self.height
+            self.frame = frame
+        }
+        get {
+            return self.top + self.height
+        }
+    }
+    
+    var centerY: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.y = newValue - self.frame.size.height * 0.5
+            self.frame = frame
+        }
+        get {
+            return self.frame.origin.y + self.frame.size.height * 0.5
+        }
+    }
+    
+    var centerX: CGFloat {
+        set {
+            var frame = self.frame
+            frame.origin.x = newValue - self.frame.size.width * 0.5
+            self.frame = frame
+        }
+        get {
+            return self.frame.origin.x + self.frame.size.width * 0.5
+        }
+    }
+
+    var size: CGSize {
+        set {
+            var frame = self.frame
+            frame.size = newValue
+            self.frame = frame
+        }
+        get {
+            return self.frame.size
+        }
+    }
+    
     /// X方向上的移动动画
     ///
     /// - Parameters:
@@ -40,6 +141,8 @@ extension UIView {
         }
     }
 }
+
+//MARK: - Int
 extension Int {
     //转化为CGFloat
     var FloatValue: CGFloat {
@@ -50,6 +153,8 @@ extension Int {
         return Double(self)
     }
 }
+
+//MARK: - UIImage
 extension UIImage {
     //扩展宽高
     var height: CGFloat {
@@ -99,8 +204,119 @@ extension UIImage {
         let blurImage = UIImage(cgImage: cgImage!)
         return blurImage
     }
+    
+    
+    /// 生成圆形图片
+    ///
+    /// - Returns: 返回圆形图片
+    func circleImage() -> UIImage {
+        //取最短边长
+        let shotest = min(self.size.width, self.size.height)
+        //输出尺寸
+        let outputRect = CGRect(x: 0, y: 0, width: shotest, height: shotest)
+        //开始图片处理上下文（由于输出的图不会进行缩放，所以缩放因子等于屏幕的scale即可）
+        UIGraphicsBeginImageContextWithOptions(outputRect.size, false, 0)
+        let context = UIGraphicsGetCurrentContext()!
+        //添加圆形裁剪区域
+        context.addEllipse(in: outputRect)
+        context.clip()
+        //绘制图片
+        self.draw(in: CGRect(x: (shotest-self.size.width)/2,
+                             y: (shotest-self.size.height)/2,
+                             width: self.size.width,
+                             height: self.size.height))
+        //获得处理后的图片
+        let maskedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return maskedImage
+    }
+    
+    /**
+     Creates a new solid color image.
+     - Parameter color: The color to fill the image with.
+     - Parameter size: Image size (defaults: 10x10)
+     - Returns A new image
+     */
+    convenience init?(color: UIColor, size: CGSize = CGSize(width: 10, height: 10)) {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
+        
+        let context = UIGraphicsGetCurrentContext()
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        self.init(cgImage:(UIGraphicsGetImageFromCurrentImageContext()?.cgImage!)!)
+        UIGraphicsEndImageContext()
+    }
+    
+    ///对指定图片进行拉伸
+    func resizableImage(name: String) -> UIImage {
+        var normal = UIImage(named: name)!
+        let imageWidth = normal.size.width * 0.5
+        let imageHeight = normal.size.height * 0.5
+        normal = resizableImage(withCapInsets: UIEdgeInsetsMake(imageHeight, imageWidth, imageHeight, imageWidth))
+        return normal
+    }
+    
+    /**
+     *  压缩上传图片到指定字节
+     *  image     压缩的图片
+     *  maxLength 压缩后最大字节大小
+     *  return 压缩后图片的二进制
+     */
+    func compressImage(image: UIImage, maxLength: Int) -> NSData? {
+        let newSize = self.scaleImage(image: image, imageLength: 300)
+        let newImage = self.resizeImage(image: image, newSize: newSize)
+        var compress:CGFloat = 0.9
+        var data = UIImageJPEGRepresentation(newImage, compress)
+        while (data?.count)! > maxLength && compress > 0.01 {
+            compress -= 0.02
+            data = UIImageJPEGRepresentation(newImage, compress)
+        }
+        return data as! NSData
+    }
+    
+    /**
+     *  通过指定图片最长边，获得等比例的图片size
+     *  image       原始图片
+     *  imageLength 图片允许的最长宽度（高度）
+     *  return 获得等比例的size
+     */
+    func  scaleImage(image: UIImage, imageLength: CGFloat) -> CGSize {
+        var newWidth:CGFloat = 0.0
+        var newHeight:CGFloat = 0.0
+        let width = image.size.width
+        let height = image.size.height
+        if (width > imageLength || height > imageLength){
+            if (width > height) {
+                newWidth = imageLength;
+                newHeight = newWidth * height / width;
+            }else if(height > width){
+                newHeight = imageLength;
+                newWidth = newHeight * width / height;
+            }else{
+                newWidth = imageLength;
+                newHeight = imageLength;
+            }
+        }
+        return CGSize(width: newWidth, height: newHeight)
+    }
+    
+    /**
+     *  获得指定size的图片
+     *  image   原始图片
+     *  newSize 指定的size
+     *  return 调整后的图片
+     */
+    func resizeImage(image: UIImage, newSize: CGSize) -> UIImage {
+        UIGraphicsBeginImageContext(newSize)
+        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+    }
 }
 
+//MARK: - UIButton
 extension UIButton {
     public class func initializeOnceMethod() {
         //原来设置给Button的点击事件
@@ -210,6 +426,7 @@ extension UIViewController {
 }
  */
 
+//MARK: - DispatchQueue
 extension DispatchQueue {
     private static var onceTracker = [String]()
     
@@ -226,6 +443,71 @@ extension DispatchQueue {
     }
 }
 
+//MARK: - String
+extension String{
+    func transformToPinYin()->String{
+        let mutableString = NSMutableString(string: self)
+        CFStringTransform(mutableString, nil, kCFStringTransformToLatin, false)
+        CFStringTransform(mutableString, nil, kCFStringTransformStripDiacritics, false)
+        let string = String(mutableString)
+        return string.replacingOccurrences(of: " ", with: "")
+    }
+}
+
+//MARK: - UIColor
+extension UIColor {
+    convenience init(rgba: String) {
+        var red: CGFloat = 0.0
+        var green: CGFloat = 0.0
+        var blue: CGFloat = 0.0
+        var alpha: CGFloat = 1.0
+        if rgba.hasPrefix("#") {
+            let index   = rgba.characters.index(rgba.startIndex, offsetBy: 1)
+            let hex     = rgba.substring(from: index)
+            let scanner = Scanner(string: hex)
+            var hexValue: CUnsignedLongLong = 0
+            if scanner.scanHexInt64(&hexValue) {
+                switch (hex.characters.count) {
+                case 3:
+                    red   = CGFloat((hexValue & 0xF00) >> 8)       / 15.0
+                    green = CGFloat((hexValue & 0x0F0) >> 4)       / 15.0
+                    blue  = CGFloat(hexValue & 0x00F)              / 15.0
+                case 4:
+                    red   = CGFloat((hexValue & 0xF000) >> 12)     / 15.0
+                    green = CGFloat((hexValue & 0x0F00) >> 8)      / 15.0
+                    blue  = CGFloat((hexValue & 0x00F0) >> 4)      / 15.0
+                    alpha = CGFloat(hexValue & 0x000F)             / 15.0
+                case 6:
+                    red   = CGFloat((hexValue & 0xFF0000) >> 16)   / 255.0
+                    green = CGFloat((hexValue & 0x00FF00) >> 8)    / 255.0
+                    blue  = CGFloat(hexValue & 0x0000FF)           / 255.0
+                case 8:
+                    red   = CGFloat((hexValue & 0xFF000000) >> 24) / 255.0
+                    green = CGFloat((hexValue & 0x00FF0000) >> 16) / 255.0
+                    blue  = CGFloat((hexValue & 0x0000FF00) >> 8)  / 255.0
+                    alpha = CGFloat(hexValue & 0x000000FF)         / 255.0
+                default:
+                    debugPrint("Invalid RGB string, number of characters after '#' should be either 3, 4, 6 or 8", terminator: "")
+                }
+            } else {
+                debugPrint("Scan hex error")
+            }
+        } else {
+            debugPrint("Invalid RGB string, missing '#' as prefix", terminator: "")
+        }
+        self.init(red:red, green:green, blue:blue, alpha:alpha)
+    }
+    
+    //用数值初始化颜色，便于生成设计图上标明的十六进制颜色
+//    convenience init(hex: UInt) {
+//        self.init(
+//            red: CGFloat((hex & 0xFF0000) >> 16) / 255.0,
+//            green: CGFloat((hex & 0x00FF00) >> 8) / 255.0,
+//            blue: CGFloat(hex & 0x0000FF) / 255.0,
+//            alpha: CGFloat(1.0)
+//        )
+//    }
+}
 
 
 
