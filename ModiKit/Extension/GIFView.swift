@@ -14,14 +14,14 @@ import QuartzCore
 /// 加载本地GIF图片
 class GIFView: UIView {
 
-    var width: CGFloat? {
-        return frame.width
-    }
-    var height: CGFloat? {
-        return frame.height
-    }
+//    var width: CGFloat? {
+//        return frame.width
+//    }
+//    var height: CGFloat? {
+//        return frame.height
+//    }
     var viewWHRatio: CGFloat? {
-        return width!/height!
+        return width/height
     }
     
     var gifPath: String?
@@ -134,11 +134,11 @@ class GIFView: UIView {
         
         if ratio > viewWHRatio! {
             //调整宽度
-            newWidth = width!
+            newWidth = width
             newHeight = gifWidth / viewWHRatio!
         }else {
             //调整高度
-            newHeight = height!
+            newHeight = height
             newWidth = gifHeight * viewWHRatio!
         }
         let point = self.center

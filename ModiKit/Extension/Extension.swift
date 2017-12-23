@@ -509,7 +509,31 @@ extension UIColor {
 //    }
 }
 
-
+extension NSObject {
+    //运行时字典转模型
+    func setValuesWithDict(dict: NSDictionary?) {
+        if let kvs = dict as? [String : Any] {
+            //获取到该Object所有的属性值
+            // UnsafePointer<Int8> 相当于一个字符串
+            //char*对应UnsafeMutablePointer，const char*是UnsafePointer
+            let count = UnsafeMutablePointer<UInt32>.allocate(capacity: 1)
+            let ivars = class_copyIvarList(self.classForCoder, count)
+            for i in (0..<count.pointee) {
+                let ivar = ivars![Int(i)]
+                let key = NSString(utf8String: ivar_getName(ivar)!)
+                debugPrint("ivars[i] ----> key ------> \(key)")
+                //根据属性名去字典中获取value
+                let value = dict![key!]
+                debugPrint("ivars[i] ----> value ------> \(value)")
+                
+                //判断当前属性类型是否是一个自定义对象：若是这继续初始化
+                let type = NSString(utf8String: ivar_getTypeEncoding(ivar)!)
+                debugPrint("type --------> \(type)")
+                i
+            }
+        }
+    }
+}
 
 
 

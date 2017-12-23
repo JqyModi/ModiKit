@@ -16,6 +16,9 @@
 		044058BE1FCE41E50076FFC5 /* gif2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 044058BC1FCE41E50076FFC5 /* gif2.gif */; };
 		044058C11FCE8B660076FFC5 /* fy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 044058C01FCE8B660076FFC5 /* fy.jpg */; };
 		044058C31FCE97590076FFC5 /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044058C21FCE97590076FFC5 /* Singleton.swift */; };
+		04C367C41FECD10A00662B0F /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C367C31FECD10A00662B0F /* Bus.swift */; };
+		04C367C61FECF61A00662B0F /* FireExtinguisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C367C51FECF61A00662B0F /* FireExtinguisher.swift */; };
+		04CD033F1FEB91140094EE8B /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CD033E1FEB91140094EE8B /* Car.swift */; };
 		04DD00FE1FCBE0970077D276 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD00FD1FCBE0970077D276 /* AppDelegate.swift */; };
 		04DD01001FCBE0970077D276 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DD00FF1FCBE0970077D276 /* ViewController.swift */; };
 		04DD01031FCBE0970077D276 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04DD01011FCBE0970077D276 /* Main.storyboard */; };
@@ -53,6 +56,11 @@
 		044058BF1FCE4BB90076FFC5 /* bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridging.h; sourceTree = "<group>"; };
 		044058C01FCE8B660076FFC5 /* fy.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fy.jpg; sourceTree = "<group>"; };
 		044058C21FCE97590076FFC5 /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
+		04B59E6D1FEE0A1E00766E7B /* NSObject+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extension.h"; sourceTree = "<group>"; };
+		04B59E6E1FEE0A1E00766E7B /* NSObject+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Extension.m"; sourceTree = "<group>"; };
+		04C367C31FECD10A00662B0F /* Bus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
+		04C367C51FECF61A00662B0F /* FireExtinguisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireExtinguisher.swift; sourceTree = "<group>"; };
+		04CD033E1FEB91140094EE8B /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
 		04DD00FA1FCBE0970077D276 /* ModiKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModiKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DD00FD1FCBE0970077D276 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04DD00FF1FCBE0970077D276 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +114,7 @@
 		043CE5AC1FCCE539006D017C /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				04B59E6C1FEE0A0100766E7B /* KVC */,
 				044058BF1FCE4BB90076FFC5 /* bridging.h */,
 				043CE5B11FCCE67C006D017C /* Extension.swift */,
 				043CE5B31FCD04A3006D017C /* Cache.swift */,
@@ -125,6 +134,25 @@
 				044058B91FCE38DE0076FFC5 /* gif.gif */,
 			);
 			path = resource;
+			sourceTree = "<group>";
+		};
+		04B59E6C1FEE0A0100766E7B /* KVC */ = {
+			isa = PBXGroup;
+			children = (
+				04B59E6D1FEE0A1E00766E7B /* NSObject+Extension.h */,
+				04B59E6E1FEE0A1E00766E7B /* NSObject+Extension.m */,
+			);
+			path = KVC;
+			sourceTree = "<group>";
+		};
+		04CD033D1FEB90A20094EE8B /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				04CD033E1FEB91140094EE8B /* Car.swift */,
+				04C367C31FECD10A00662B0F /* Bus.swift */,
+				04C367C51FECF61A00662B0F /* FireExtinguisher.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		04DD00F11FCBE0970077D276 = {
@@ -150,6 +178,7 @@
 		04DD00FC1FCBE0970077D276 /* ModiKit */ = {
 			isa = PBXGroup;
 			children = (
+				04CD033D1FEB90A20094EE8B /* Classes */,
 				044058B81FCE38CC0076FFC5 /* resource */,
 				043CE5AC1FCCE539006D017C /* Extension */,
 				043CE5AB1FCCE4FA006D017C /* Support Files */,
@@ -317,12 +346,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C367C41FECD10A00662B0F /* Bus.swift in Sources */,
 				04DD01001FCBE0970077D276 /* ViewController.swift in Sources */,
 				044058C31FCE97590076FFC5 /* Singleton.swift in Sources */,
+				04CD033F1FEB91140094EE8B /* Car.swift in Sources */,
 				043CE5B81FCD407C006D017C /* GIFView.swift in Sources */,
 				043CE5B41FCD04A3006D017C /* Cache.swift in Sources */,
 				04DD00FE1FCBE0970077D276 /* AppDelegate.swift in Sources */,
 				043D54F21FCFD688003130E1 /* LLDB.swift in Sources */,
+				04C367C61FECF61A00662B0F /* FireExtinguisher.swift in Sources */,
 				043CE5B21FCCE67C006D017C /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

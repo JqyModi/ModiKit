@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var car: Car?
+    
     @IBOutlet weak var testImageView: UIImageView! {
         didSet {
 //            testImageView?.sizeToFit()
@@ -42,12 +44,63 @@ class ViewController: UIViewController {
         let single1 = Singleton.sharedSingleton
         debugPrint("single1.testValue = \(single1.testValue)")
         
+        //测试KVC
+        car = Car()
+        car?.name = "法拉利"
+        car?.setColor(color: "red")
+        car?.setType(type: "make in china")
         
+        //
     }
     
     @IBAction func readCache(_ sender: UIButton) {
         let cacheSize = Cache.calcCacheSize()
         print("cacheSize = \(cacheSize)")
+        
+        //KVO操作
+        //1.将当前类作为观察者
+        car?.addObserver(self, forKeyPath: "type", options: [.new,.old], context: nil)
+        
+        //操作KVC
+        car?.setValue("China", forKey: "type")
+        debugPrint("car type = \(car?.getType())")
+        debugPrint("car type KVC -> \(car?.value(forKeyPath: "type"))")
+        
+        //Swift4新特性：支持结构体KVC
+        let s = Student(name: "saobi", sex: "nan")
+        
+        
+        var responseMessages = [200: "OK",
+                                403: "Access forbidden",
+                                404: "File not found",
+                                500: "Internal server error"]
+        //
+        let dict: NSDictionary = ["name" : "汽车",
+                    "type" : "机动车",
+                    "color" : "orange",
+                    "fe" : [
+                        "create" : "2017.12.22",
+                        "isChecked" : "true"
+            ],
+                    "bus" : [
+                        "seat" : "20",
+                        "serviceCount" : "2"
+            ]
+        ]
+        
+        let car1 = Car()
+//        car1.setValuesForKeys(dict)
+//        car1.setValuesWithDict(dict: dict)
+        car1.setkeyValues(dict as! [AnyHashable : Any])
+        debugPrint("car.bus.count ------> \(car1.bus?.seat)")
+//        Car.propertyList()
+        
+        
+    }
+    
+    // KVO - 实现type改变监听方法
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        debugPrint("监听到改变：change ---> \(change)")
     }
     
     @IBAction func clearCache(_ sender: UIButton) {
@@ -60,5 +113,10 @@ class ViewController: UIViewController {
     @IBAction func touchDown(_ sender: UIButton) {
         debugPrint("touchDown")
     }
+}
+
+struct Student {
+    var name: String
+    var sex: String
 }
 
